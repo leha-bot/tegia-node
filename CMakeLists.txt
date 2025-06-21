@@ -23,7 +23,8 @@ set(TEGIA_FLAGS "-rdynamic -march=native -m64 -Og -g -Wpedantic -Wshadow=compati
 # DEBUG
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,leak")
 
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${TEGIA_FLAGS}")
+add_compile_options($<$<NOT:$<CXX_COMPILER_ID:MSVC>>:${TEGIA_FLAGS}>)
+# SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${TEGIA_FLAGS}")
 
 
 #
@@ -44,6 +45,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE /usr/include/libxml2)
 #
 # GLOBAL LIBRARY
 #
+
+find_package(zlib REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
 target_link_libraries(${PROJECT_NAME} PRIVATE dl)
