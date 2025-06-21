@@ -1,0 +1,22 @@
+{
+      "version": 3,
+      "configurePresets": [
+            {
+                  "name": "vcpkg-default",
+                  "cacheVariables": {
+                        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+                  }
+            },
+            {
+                  "name": "vcpkg-system",
+                  "inherits": "vcpkg-default",
+                  "cacheVariables": {
+                        "VCPKG_MANIFEST_FEATURES": "system"
+                  }
+            },
+            {
+                  "name": "vcpkg",
+                  "inherits": "vcpkg-system"
+            }
+      ]
+}

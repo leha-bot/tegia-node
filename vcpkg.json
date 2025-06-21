@@ -1,0 +1,18 @@
+{
+  "name": "tegia-node",
+  "version": "2.0.0",
+  "dependencies": [
+    "cpp-jwt",
+    "json-schema-validator",
+    "nlohmann-json",
+    "fmt"
+  ],
+  "features": {
+    "system": {
+      "description": "Install system libs from vcpkg (use it on Windows, and don't use on Linux)",
+      "dependencies": [
+        "zlib"
+      ]
+    }
+  }
+}
