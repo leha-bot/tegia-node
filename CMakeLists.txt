@@ -18,7 +18,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # set(TEGIA_FLAGS "-rdynamic -march=native -m64 -Og")
 
 # DEV
-set(TEGIA_FLAGS "-rdynamic -march=native -m64 -Og -g -Wpedantic -Wshadow=compatible-local -Wl,--no-as-needed")
+set(TEGIA_FLAGS -rdynamic -march=native -m64 -Og -g -Wpedantic -Wshadow=compatible-local -Wl,--no-as-needed)
 
 # DEBUG
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address,leak")
@@ -40,19 +40,24 @@ add_executable(${PROJECT_NAME} ${TEGIA_SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ./include)
 target_include_directories(${PROJECT_NAME} PRIVATE ../vendors)
-target_include_directories(${PROJECT_NAME} PRIVATE /usr/include/libxml2)
+# target_include_directories(${PROJECT_NAME} PRIVATE /usr/include/libxml2)
 
 #
 # GLOBAL LIBRARY
 #
 
-find_package(zlib REQUIRED)
+find_package(PkgConfig REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE pthread)
-target_link_libraries(${PROJECT_NAME} PRIVATE dl)
-target_link_libraries(${PROJECT_NAME} PRIVATE uuid)
-target_link_libraries(${PROJECT_NAME} PRIVATE z)
-target_link_libraries(${PROJECT_NAME} PRIVATE curl)
+find_package(ZLIB REQUIRED)
+find_package(Threads REQUIRED)
+find_package(CURL REQUIRED)
+pkg_check_modules(UUID uuid IMPORTED_TARGET)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Threads::Threads) #pthread)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CMAKE_DL_LIBS}) #dl)
+target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::UUID) #uuid)
+target_link_libraries(${PROJECT_NAME} PRIVATE ZLIB::ZLIB) #z)
+target_link_libraries(${PROJECT_NAME} PRIVATE CURL::libcurl) #curl)
 target_link_libraries(${PROJECT_NAME} PRIVATE crypto)
 target_link_libraries(${PROJECT_NAME} PRIVATE mysqlclient)
 target_link_libraries(${PROJECT_NAME} PRIVATE xml2)

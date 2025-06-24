@@ -11,7 +11,14 @@
     "system": {
       "description": "Install system libs from vcpkg (use it on Windows, and don't use on Linux)",
       "dependencies": [
-        "zlib"
+        "curl",
+        "zlib",
+        "libmysql",
+        "libxml2",
+        {
+          "name": "libuuid",
+          "platform": "!windows"
+        }
       ]
     }
   }
